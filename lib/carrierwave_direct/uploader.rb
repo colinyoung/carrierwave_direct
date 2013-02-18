@@ -43,6 +43,9 @@ module CarrierWaveDirect
       return @key if @key.present?
       if url.present?
         self.key = CGI.unescape(URI.parse(url).path) # explicitly set key
+        if url.include? 'uploads/tmp'
+          self.key = "#{store_dir}/#{guid}/#{File.basename(key)}"
+        end
       else
         @key = "#{store_dir}/#{guid}/#{FILENAME_WILDCARD}"
       end
